@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+
+    <EditText
+        android:id="@+id/set_speed_val_display"
+        android:layout_width="80dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="15dp"
+        android:backgroundTint="#03A9F4"
+        android:inputType="text"
+        app:layout_constraintTop_toBottomOf="@id/button_back"
+        app:layout_constraintStart_toEndOf="@id/button_back" />
+
+    <Button
+        android:id="@+id/set_speed_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:text="Set Max Speed"
+        app:layout_constraintTop_toBottomOf="@id/set_speed_val_display"
+        app:layout_constraintStart_toStartOf="@id/set_speed_val_display" />
+
+
+    <Button
+        android:id="@+id/button_stop"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="225dp"
+        android:onClick="changeDirection"
+        android:text="Stop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.398"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.501" />
+
+    <Button
+        android:id="@+id/button_forw"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginTop="75dp"
+        android:onClick="changeDirection"
+        android:text="↑"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintStart_toStartOf="@id/button_stop"
+        app:layout_constraintBottom_toTopOf="@id/button_stop"/>
+
+    <Button
+        android:id="@+id/button_back"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:onClick="changeDirection"
+        android:text="↓"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintTop_toBottomOf="@id/button_stop"
+        app:layout_constraintStart_toStartOf="@id/button_stop" />
+
+    <Button
+        android:id="@+id/button_left"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginEnd="15dp"
+        android:onClick="changeDirection"
+        android:text="←"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toStartOf="@id/button_stop"
+        app:layout_constraintTop_toTopOf="@id/button_stop" />
+
+    <Button
+        android:id="@+id/button_strafe_forw_left"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:onClick="changeDirection"
+        android:text="↖"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toTopOf="@id/button_left"
+        app:layout_constraintStart_toStartOf="@id/button_left" />
+    <Button
+        android:id="@+id/button_strafe_back_left"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:onClick="changeDirection"
+        android:text="↙"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintTop_toBottomOf="@id/button_left"
+        app:layout_constraintStart_toStartOf="@id/button_left" />
+    <Button
+        android:id="@+id/button_right"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="15dp"
+        android:onClick="changeDirection"
+        android:text="→"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintStart_toEndOf="@id/button_stop"
+        app:layout_constraintTop_toTopOf="@id/button_stop" />
+
+    <Button
+        android:id="@+id/button_strafe_forw_right"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:onClick="changeDirection"
+        android:text="↗"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toTopOf="@id/button_right"
+        app:layout_constraintStart_toStartOf="@id/button_right" />
+    <Button
+        android:id="@+id/button_strafe_back_right"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:onClick="changeDirection"
+        android:text="↘"
+        android:textAlignment="center"
+        android:textSize="34sp"
+        app:layout_constraintTop_toBottomOf="@id/button_right"
+        app:layout_constraintStart_toStartOf="@id/button_right" />
+
+    <TextView
+        android:id="@+id/temp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="changeDirection"
+        android:text="STOP"
+        android:layout_marginBottom="25dp"
+        app:layout_constraintBottom_toTopOf="@id/button_forw"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <Button
+        android:id="@+id/button_connect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Connect"
+        app:layout_constraintBottom_toTopOf="@+id/button_disconnect"
+        app:layout_constraintEnd_toStartOf="@+id/button_stop" />
+    <Button
+        android:id="@+id/button_disconnect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Disconnect"
+        app:layout_constraintBottom_toBottomOf="@+id/set_speed_button"
+        app:layout_constraintEnd_toStartOf="@+id/button_stop" />
+
+    <com.google.android.material.slider.Slider
+        android:id="@+id/speed_slider"
+        android:layout_width="250dp"
+        android:layout_height="10dp"
+        android:layout_marginStart="12dp"
+        android:rotation="270"
+        app:layout_constraintBottom_toBottomOf="@+id/button_stop"
+        app:layout_constraintStart_toEndOf="@+id/button_stop" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
