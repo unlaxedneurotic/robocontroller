@@ -35,7 +35,6 @@ class MainActivity : AppCompatActivity() {
             override fun onStopTrackingTouch(slider: Slider) {
                 val sliderval = slider.value.toDouble()
                 myController.setspeed(sliderval)
-                myController.changeSpeed()
                 setDisplay()
             }
         })
@@ -44,17 +43,16 @@ class MainActivity : AppCompatActivity() {
 
     public fun changeDirection(v:View){
         when(v.id){
-            binding.buttonStop.id -> myController.changeSpeed(0)
-            binding.buttonForw.id -> myController.changeSpeed(1)
-            binding.buttonStrafeForwRight.id ->myController.changeSpeed(2)
-            binding.buttonRight.id -> myController.changeSpeed(3)
-            binding.buttonStrafeBackRight.id-> myController.changeSpeed(4)
-            binding.buttonBack.id -> myController.changeSpeed(5)
-            binding.buttonStrafeBackLeft.id -> myController.changeSpeed(6)
-            binding.buttonLeft.id -> myController.changeSpeed(7)
-            binding.buttonStrafeForwLeft.id -> myController.changeSpeed(8)
+            binding.buttonStop.id -> myController.changeSpeedAndDirection(0)
+            binding.buttonForw.id -> myController.changeSpeedAndDirection(1)
+            binding.buttonStrafeForwRight.id ->myController.changeSpeedAndDirection(2)
+            binding.buttonRight.id -> myController.changeSpeedAndDirection(3)
+            binding.buttonStrafeBackRight.id-> myController.changeSpeedAndDirection(4)
+            binding.buttonBack.id -> myController.changeSpeedAndDirection(5)
+            binding.buttonStrafeBackLeft.id -> myController.changeSpeedAndDirection(6)
+            binding.buttonLeft.id -> myController.changeSpeedAndDirection(7)
+            binding.buttonStrafeForwLeft.id -> myController.changeSpeedAndDirection(8)
         }
-        myController.sendData()
         setDisplay()
     }
 
@@ -110,9 +108,10 @@ class Controller(val context: Context){
 
     fun setspeed(newSpeed:Double){
         speed = newSpeed*max_speed
+        changeSpeedAndDirection(new_speed = speed)
     }
 
-    fun changeSpeed(mode:Int = current_mode){
+    fun changeSpeedAndDirection(mode:Int = current_mode, new_speed:Double = speed){
 //        For a tele_op_twist like keyboard, considering stop as 0
 //        Forward button as 1 and counting rest in a clockwise fashion
         current_mode = mode
@@ -123,16 +122,39 @@ class Controller(val context: Context){
         displaystring = when(mode){
             0-> "Stop"
             1-> "Forward"
-            2-> "Right Forward"
-            3-> "Right"
-            4-> "Right Backwards"
-            5-> "Backwards"
-            6-> "Left Backwards"
-            7-> "Left"
-            8-> "Left Forwards"
+            2-> "Strafe Right"
+            3-> "Rotate Right"
+            4-> "Reverse Strafe Right"
+            5-> "Reverse"
+            6-> "Reverse Strafe Left"
+            7-> "Rotate Left"
+            8-> "Strafe Left"
             else-> "Invalid"
         }
+        when(mode){
+            1-> twistdata.linear[0] = speed
+            2-> {
+                twistdata.linear[0] = speed
+                twistdata.angular[2] = -1 * speed
+            }
+            3 -> twistdata.angular[2] = -1 * speed
+            4-> {
+                twistdata.linear[0] = speed*-1
+                twistdata.angular[2] = -1 * speed
+            }
+            5-> twistdata.linear[0] = speed
+            6-> {
+                twistdata.linear[0] = speed*-1
+                twistdata.angular[2] = speed
+            }
+            7-> twistdata.angular[2] = speed
+            8-> {
+                twistdata.linear[0] = speed
+                twistdata.angular[2] = speed
+            }
+        }
         displaystring+= " Speed: %.2f".format(speed)
+        sendData()
     }
 
     fun isConnected():Boolean{
@@ -206,9 +228,9 @@ class Controller(val context: Context){
                 "z":${twistdata.linear[2]}
                },
               "angular":{
-                "x":${twistdata.linear[0]},
-                "y":${twistdata.linear[1]},
-                "z":${twistdata.linear[2]}
+                "x":${twistdata.angular[0]},
+                "y":${twistdata.angular[1]},
+                "z":${twistdata.angular[2]}
               }
              }
             }""".trimIndent()
