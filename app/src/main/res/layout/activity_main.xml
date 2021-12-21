@@ -6,8 +6,41 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
-
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:text="Connects to tcp://broker.hivemq.com:1883 and publishes to robobits/test by default.
+        \n[if the following fields are left blank]
+        \nPress 'connect' after populating the fields."
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textSize="18dp"
+        />
+    <EditText
+        android:id="@+id/server_url"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:hint="Server URL"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@id/description"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:inputType="textUri"
+        />
+    <EditText
+        android:id="@+id/topic_text"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:layout_constraintTop_toBottomOf="@id/server_url"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:hint="Publish Topic"
+        android:layout_marginTop="5dp"
+        android:inputType="text"
+        />
     <EditText
         android:id="@+id/set_speed_val_display"
         android:layout_width="80dp"
@@ -165,6 +198,8 @@
         android:rotation="270"
         app:layout_constraintBottom_toBottomOf="@+id/button_stop"
         app:layout_constraintStart_toEndOf="@+id/button_stop" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

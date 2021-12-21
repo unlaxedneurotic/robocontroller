@@ -57,8 +57,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun connect(){
-
-        myController.connectToBroker()
+        val url = binding.serverUrl.text.toString()
+        if (url != ""){
+            myController.connectToBroker(serverURL = url)
+        }
+        else myController.connectToBroker()
+        val topic = binding.topicText.text.toString()
+        if(topic!=""){
+            myController.publish_topic = topic
+        }
+        else{
+            myController.publish_topic = "robobits/test"
+        }
         setDisplay()
     }
 
@@ -98,9 +108,10 @@ class Controller(val context: Context){
     val twistdata = twistMessage()
     private var mqttClient: MqttAndroidClient? = null
     var current_mode = 0
-    init {
-        connectToBroker()
-    }
+    var publish_topic:String = "robobits/test"
+//    init {
+//        connectToBroker()
+//    }
 
     companion object{
         const val TAG = "MQTT CLIENT"
@@ -140,12 +151,12 @@ class Controller(val context: Context){
             3 -> twistdata.angular[2] = -1 * speed
             4-> {
                 twistdata.linear[0] = speed*-1
-                twistdata.angular[2] = -1 * speed
+                twistdata.angular[2] = speed
             }
-            5-> twistdata.linear[0] = speed
+            5-> twistdata.linear[0] = speed*-1
             6-> {
                 twistdata.linear[0] = speed*-1
-                twistdata.angular[2] = speed
+                twistdata.angular[2] = speed*-1
             }
             7-> twistdata.angular[2] = speed
             8-> {
@@ -164,13 +175,11 @@ class Controller(val context: Context){
         return false
     }
 
-    fun connectToBroker(){
+    fun connectToBroker(serverURL:String = "tcp://broker.hivemq.com:1883"){
 
         if(mqttClient!=null){
             if(mqttClient!!.isConnected) return
         }
-
-        val serverURL = "tcp://broker.hivemq.com:1883"
         mqttClient = MqttAndroidClient(context, serverURL, "Robo Client")
         mqttClient!!.setCallback(object : MqttCallback{
             override fun messageArrived(topic: String?, message: MqttMessage?) {
@@ -237,13 +246,12 @@ class Controller(val context: Context){
         return msg
     }
 
-    fun sendData(){
+    fun sendData(topic:String = publish_topic){
         if(mqttClient==null) return
         if(!mqttClient!!.isConnected){ return }
 
         try{
             val msg = MqttMessage()
-            val topic:String = "robobits/test"
             msg.payload = generateJSONmessage().toByteArray()
             msg.qos = 1
             msg.isRetained = false
